@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-sm-6 my-5">
+      <div class="card">
+        <div class="card-header bg-primary text-white">Register</div>
+        <form #form="ngForm" (ngSubmit)="register(form)">
+          <div class="card-body">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input
+                type="text"
+                (ngModel)="(name)"
+                #name="ngModel"
+                class="form-control"
+                name="name"
+                minlength="3"
+                id="name"
+                required
+              />
+              <div
+                class="alert alert-danger"
+                [hidden]="name.valid || name.pristine"
+              >
+                Name required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                (ngModel)="(email)"
+                #email="ngModel"
+                class="form-control"
+                name="email"
+                id="email"
+                required
+              />
+              <div
+                class="alert alert-danger"
+                [hidden]="email.valid || email.pristine"
+              >
+                Email required
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                (ngModel)="(password)"
+                #password="ngModel"
+                class="form-control"
+                name="password"
+                minlength="6"
+                id="password"
+                required
+              />
+              <div
+                class="alert alert-danger"
+                [hidden]="password.valid || password.pristine"
+              >
+                Password required
+              </div>
+            </div>
+            <button
+              type="submit"
+              class="btn btn-primary mt-2"
+              [disabled]="form.form.invalid || submitBtn"
+            >
+              Register
+            </button>
+            <div class="text-center">
+              Have account? Click <a routerLink="/">here</a> to login
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-toasts aria-live="polite" aria-atomic="true"></app-toasts>
