@@ -12,6 +12,9 @@ export class AuthService {
   register(payload: object) {
     return this.webService.post('auth/register', payload);
   }
+  uploadProfile(payload: any) {
+    return this.webService.postImage('auth/profileimage', payload);
+  }
   info() {
     return this.webService.get('auth/info');
   }

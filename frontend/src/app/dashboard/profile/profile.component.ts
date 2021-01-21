@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { AuthService } from 'src/app/services/auth.service';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -8,7 +9,10 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 export class ProfileComponent implements OnInit {
   closeResult = '';
   selectedFile!: File;
-  constructor(private modalService: NgbModal) {}
+  constructor(
+    private modalService: NgbModal,
+    private authService: AuthService
+  ) {}
   ngOnInit(): void {}
 
   onFileChanged(event: any) {
@@ -18,14 +22,17 @@ export class ProfileComponent implements OnInit {
   onUpload() {
     // this.http is the injected HttpClient
     const uploadData = new FormData();
-    uploadData.append('myFile', this.selectedFile, this.selectedFile.name);
-    /*this.http.post('my-backend.com/file-upload', uploadData, {
-    reportProgress: true,
-    observe: 'events'
-  })
-    .subscribe((event:any) => {
-      console.log(event); // handle event here
-    });*/
+    uploadData.append('image_url', this.selectedFile, this.selectedFile.name);
+    this.authService.uploadProfile(uploadData).subscribe(
+      (event: any) => {
+        console.log(event); // handle event here
+      },
+      (err) => {
+        console.log(err);
+        alert('error uploading image');
+      },
+      () => {}
+    );
   }
   open(content: any) {
     this.modalService

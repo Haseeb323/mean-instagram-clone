@@ -24,6 +24,13 @@ export class WebService {
   post(uri: string, payload: any) {
     return this.http.post(`${this.HOST}/${uri}`, payload);
   }
+  postImage(uri: string, payload: any) {
+    return this.http.post(`${this.HOST}/${uri}`, payload, {
+      reportProgress: true,
+      observe: 'events',
+    });
+  }
+
   put(uri: string, payload: any) {
     return this.http.put(`${this.HOST}/${uri}`, payload);
   }

@@ -68,7 +68,7 @@ module.exports = {
       return res.status(404).send({ message: "User not found" });
     }
   },
-  uploadprofile: (req, res) => {
+  uploadprofile: async (req, res) => {
     let image_url = "";
     if (typeof req.files !== "undefined") {
       const keys = Object.keys(req.files);
@@ -79,7 +79,17 @@ module.exports = {
         }
       });
     }
-    if (image_url !== "") return res.send(image_url);
-    res.send({});
+    //if (image_url !== "") return res.send(image_url);
+    const { _id } = req;
+    const user = await User.findOne({ _id }).exec();
+    // @ts-ignore
+    //const { name, email } = user;
+    user.image_url = image_url;
+    user
+      .save()
+      .then((resp) => {
+        return res.send(image_url);
+      })
+      .catch((err) => res.status(500).send(err));
   },
 };

@@ -10,25 +10,21 @@
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="modal-body">
-    <input
-      type="file"
-      name="image_url"
-      (change)="onFileChanged($event)"
-      #fileInput
-    />
-    <button (click)="fileInput.click()">Select File</button>
-    <button (click)="onUpload()">Upload!</button>
-  </div>
-  <div class="modal-footer">
-    <button
-      type="button"
-      class="btn btn-outline-dark"
-      (click)="modal.close('Save click')"
-    >
-      Save
-    </button>
-  </div>
+
+  <form (ngSubmit)="onUpload()" #form="ngForm">
+    <div class="modal-body">
+      <input
+        type="file"
+        name="image_url"
+        (change)="onFileChanged($event)"
+        required
+        #fileInput
+      />
+    </div>
+    <div class="modal-footer">
+      <button type="submit" class="btn btn-outline-dark">Save</button>
+    </div>
+  </form>
 </ng-template>
 
 <div class="row justify-content-center py-3">
