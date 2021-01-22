@@ -6,8 +6,10 @@ import { Injectable } from '@angular/core';
 })
 export class WebService {
   readonly HOST!: string;
+  readonly HOST_BASE_ADDRESS!: string;
   constructor(private http: HttpClient) {
     this.HOST = 'http://localhost:4040/api';
+    this.HOST_BASE_ADDRESS = 'http://localhost:4040';
   }
   login(uri: string, payload: any) {
     let newHeaders = new HttpHeaders({

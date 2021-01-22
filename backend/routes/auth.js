@@ -39,5 +39,6 @@ Router.post(
   userController.uploadprofile
 );
 Router.get("/info", verify, userController.info);
+Router.get("/info/:userid", verify, userController.userInfo);
 
 module.exports = Router;

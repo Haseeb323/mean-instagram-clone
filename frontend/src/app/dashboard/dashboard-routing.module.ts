@@ -11,7 +11,7 @@ const routes: Routes = [
     component: DashboardComponent,
     children: [
       { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-      { path: 'profile', component: ProfileComponent },
+      { path: 'profile/:userid', component: ProfileComponent },
     ],
   },
 ];

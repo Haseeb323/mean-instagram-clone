@@ -38,7 +38,7 @@
           aria-labelledby="navbarDropdown3"
           class="dropdown-menu"
         >
-          <a ngbDropdownItem routerLink="profile"> Profile </a>
+          <a ngbDropdownItem [routerLink]="['profile', user._id]"> Profile </a>
           <a ngbDropdownItem routerLink="/logout"> Logout</a>
         </div>
       </li>

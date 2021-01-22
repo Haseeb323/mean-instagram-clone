@@ -18,6 +18,9 @@ export class AuthService {
   info() {
     return this.webService.get('auth/info');
   }
+  userInfo(userid: any) {
+    return this.webService.get(`auth/info/${userid}`);
+  }
   getToken() {
     return localStorage.getItem('token');
   }

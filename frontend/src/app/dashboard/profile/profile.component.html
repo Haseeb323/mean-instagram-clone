@@ -1,6 +1,6 @@
 <ng-template #content let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+    <h4 class="modal-title" id="modal-basic-title">Profile picture update</h4>
     <button
       type="button"
       class="close"
@@ -11,44 +11,43 @@
     </button>
   </div>
 
-  <form (ngSubmit)="onUpload()" #form="ngForm">
-    <div class="modal-body">
-      <input
-        type="file"
-        name="image_url"
-        (change)="onFileChanged($event)"
-        required
-        #fileInput
-      />
-    </div>
-    <div class="modal-footer">
-      <button type="submit" class="btn btn-outline-dark">Save</button>
-    </div>
-  </form>
+  <div class="modal-body">
+    <input
+      type="file"
+      name="image_url"
+      (change)="onFileChanged($event)"
+      #fileInput
+    />
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      (click)="modal.dismiss('Close click')"
+      class="btn btn-outline-dark"
+    >
+      Close
+    </button>
+  </div>
 </ng-template>
 
 <div class="row justify-content-center py-3">
-  <div class="col-md-2">
+  <div class="col-md-3 p-3 text-center">
     <img
-      src="../../../assets/profile.png"
+      src="{{ user.image_url || 'assets/profile.png' }}"
       alt="Profile Image"
       class="img-fluid mx-auto d-block profile-img"
     />
     <button class="btn btn-link" (click)="open(content)">
       Profile Picture
     </button>
-
-    <hr />
-
-    <pre>{{ closeResult }}</pre>
   </div>
-  <div class="col-md-6">
+  <div class="col-md-7 p-3">
     <div class="d-flex justify-content-between mb-3">
       <h2 class="username">haseebahmad70</h2>
       <button class="btn btn-primary btn-sm">Edit Profile</button>
     </div>
     <div class="d-flex mb-3">
-      <div class="flex-1"><b>4</b> posts</div>
+      <div class="flex-1"><b>0</b> posts</div>
       <div class="flex-1"><b>104</b> followers</div>
       <div class="flex-1"><b>128</b> following</div>
     </div>
@@ -57,11 +56,18 @@
 </div>
 <hr />
 <div class="row py-2 mb-5">
-  <div class="col-md-4 mb-2">
+  <div class="col-md-4 p-5 mb-2">
     <img
-      src="../../../assets/profile.png"
+      src="/assets/profile.png"
       alt="Profile Image"
-      class="posts-picture mx-auto d-block"
+      class="img-fluid mx-auto d-block"
+    />
+  </div>
+  <div class="col-md-4 p-5 mb-2">
+    <img
+      src="/assets/profile.png"
+      alt="Profile Image"
+      class="img-fluid mx-auto d-block"
     />
   </div>
 </div>

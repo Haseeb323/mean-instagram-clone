@@ -62,8 +62,36 @@ module.exports = {
     try {
       const user = await User.findOne({ _id }).exec();
       // @ts-ignore
-      const { name, email } = user;
-      return res.send({ name, email });
+      const {
+        // @ts-ignore
+        name,
+        // @ts-ignore
+        email,
+        // @ts-ignore
+        image_url,
+        // @ts-ignore
+        followers,
+        // @ts-ignore
+        followings,
+        // @ts-ignore
+        username,
+        // @ts-ignore
+        date,
+      } = user;
+      console.log(image_url);
+      return res.send({
+        _id,
+        name,
+        email,
+        image_url:
+          image_url == undefined
+            ? ""
+            : `http://${req.headers.host}/${image_url}`,
+        followers,
+        followings,
+        username,
+        date,
+      });
     } catch (error) {
       return res.status(404).send({ message: "User not found" });
     }
@@ -74,22 +102,60 @@ module.exports = {
       const keys = Object.keys(req.files);
       keys.forEach((key) => {
         if (key === "image_url") {
-          image_url = req.files.image_url[0].path;
+          image_url = `uploads/profileimages/${req.files.image_url[0].filename}`;
           //console.log(req.files.image_url[0]);
         }
       });
     }
-    //if (image_url !== "") return res.send(image_url);
     const { _id } = req;
     const user = await User.findOne({ _id }).exec();
     // @ts-ignore
-    //const { name, email } = user;
     user.image_url = image_url;
     user
       .save()
       .then((resp) => {
-        return res.send(image_url);
+        //console.log(resp);
+        return res.status(200).send({ image_url });
       })
       .catch((err) => res.status(500).send(err));
+  },
+  userInfo: async (req, res) => {
+    // @ts-ignore
+    const _id = req.params.userid;
+    try {
+      const user = await User.findOne({ _id }).exec();
+      // @ts-ignore
+      const {
+        // @ts-ignore
+        name,
+        // @ts-ignore
+        email,
+        // @ts-ignore
+        image_url,
+        // @ts-ignore
+        followers,
+        // @ts-ignore
+        followings,
+        // @ts-ignore
+        username,
+        // @ts-ignore
+        date,
+      } = user;
+      return res.send({
+        _id,
+        name,
+        email,
+        image_url:
+          image_url == undefined
+            ? ""
+            : `http://${req.headers.host}/${image_url}`,
+        followers,
+        followings,
+        username,
+        date,
+      });
+    } catch (error) {
+      return res.status(404).send({ message: "User not found" });
+    }
   },
 };
