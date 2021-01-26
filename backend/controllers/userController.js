@@ -3,6 +3,8 @@ const { loginValidate, registerValidate } = require("../validation");
 const bcrypt = require("bcryptjs");
 const User = require("../model/User");
 const jwt = require("jsonwebtoken");
+const Jimp = require("jimp");
+
 module.exports = {
   login: async (req, res) => {
     const validate = loginValidate.validate(req.body);
@@ -103,6 +105,7 @@ module.exports = {
       keys.forEach((key) => {
         if (key === "image_url") {
           image_url = `uploads/profileimages/${req.files.image_url[0].filename}`;
+
           //console.log(req.files.image_url[0]);
         }
       });
@@ -111,13 +114,23 @@ module.exports = {
     const user = await User.findOne({ _id }).exec();
     // @ts-ignore
     user.image_url = image_url;
-    user
-      .save()
-      .then((resp) => {
-        //console.log(resp);
-        return res.status(200).send({ image_url });
-      })
-      .catch((err) => res.status(500).send(err));
+
+    Jimp.read(image_url, (err, lenna) => {
+      if (err) throw err;
+      lenna
+        .resize(320, 320)
+        .quality(60) // set JPEG quality
+        .writeAsync(image_url)
+        .then(async (result) => {
+          await user
+            .save()
+            .then((resp) => {
+              return res.status(200).send({ image_url });
+            })
+            .catch((err) => res.status(500).send(err));
+        })
+        .catch((err) => res.status(500).send(err)); // save
+    });
   },
   userInfo: async (req, res) => {
     // @ts-ignore

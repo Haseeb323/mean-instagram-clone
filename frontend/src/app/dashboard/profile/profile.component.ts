@@ -31,7 +31,7 @@ export class ProfileComponent implements OnInit {
       if (res.hasOwnProperty('userid')) {
         this.authService.userInfo(res.userid).subscribe((resp: any) => {
           this.user = resp;
-          console.log(resp);
+          //console.log(resp);
         });
       }
     });
@@ -73,6 +73,8 @@ export class ProfileComponent implements OnInit {
       (event: any) => {
         if (event.body) {
           this.user.image_url = `${this.webService.HOST_BASE_ADDRESS}/${event.body.image_url}`;
+          console.log(this.user.image_url);
+
           this.modalService.dismissAll('Image Uploaded');
         }
       },
