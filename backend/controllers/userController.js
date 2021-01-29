@@ -1,9 +1,12 @@
 require("dotenv").config();
 const { loginValidate, registerValidate } = require("../validation");
 const bcrypt = require("bcryptjs");
-const User = require("../model/User");
 const jwt = require("jsonwebtoken");
 const Jimp = require("jimp");
+
+const User = require("../model/User");
+const Follow = require("../model/Follow");
+const Posts = require("../model/Posts");
 
 module.exports = {
   login: async (req, res) => {
@@ -51,7 +54,10 @@ module.exports = {
     const newUser = new User({ name, email, password: hash });
     await newUser
       .save()
-      .then((result) => {
+      .then(async (result) => {
+        let _id = result._id;
+        const follow = new Follow({ _id });
+        await follow.save();
         return res.send({ message: "Registered Successfuly" });
       })
       .catch((error) => {

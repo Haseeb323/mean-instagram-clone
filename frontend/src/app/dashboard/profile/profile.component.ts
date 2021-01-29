@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth.service';
+import { PostService } from 'src/app/services/post.service';
 import { WebService } from 'src/app/services/web.service';
 @Component({
   selector: 'app-profile',
@@ -9,21 +10,23 @@ import { WebService } from 'src/app/services/web.service';
   styleUrls: ['./profile.component.scss'],
 })
 export class ProfileComponent implements OnInit {
+  POSTS: any = [];
   closeResult = '';
   selectedFile!: File;
   user: any = {
+    _id: '',
     name: '',
     username: '',
     followers: [],
     followings: [],
     email: '',
     image_url: '',
-    date: Date.now(),
   };
   constructor(
     private modalService: NgbModal,
     private authService: AuthService,
     private webService: WebService,
+    private postService: PostService,
     private activatedRoute: ActivatedRoute
   ) {}
   ngOnInit(): void {
@@ -31,6 +34,11 @@ export class ProfileComponent implements OnInit {
       if (res.hasOwnProperty('userid')) {
         this.authService.userInfo(res.userid).subscribe((resp: any) => {
           this.user = resp;
+          this.postService
+            .getPosts(this.user._id, 1)
+            .subscribe((posts: any) => {
+              this.POSTS = posts;
+            });
           //console.log(resp);
         });
       }

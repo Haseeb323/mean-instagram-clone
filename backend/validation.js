@@ -8,4 +8,9 @@ const registerValidate = Joi.object({
   email: Joi.string().email().required(),
   password: Joi.string().min(6).max(64).required(),
 });
-module.exports = { registerValidate, loginValidate };
+const postValidate = Joi.object({
+  title: Joi.string().max(255).required(),
+  description: Joi.string(),
+  image_url: Joi.string().max(1024).required(),
+});
+module.exports = { registerValidate, loginValidate, postValidate };
