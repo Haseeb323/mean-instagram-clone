@@ -2,21 +2,27 @@ require("dotenv").config();
 const { postValidate } = require("../validation");
 const Posts = require("../model/Posts");
 const Jimp = require("jimp");
-const { response } = require("express");
 
 module.exports = {
   getPosts: async (req, res) => {
     //const { _id } = req; //_userid
     const { _userid, pagenumber } = req.params;
-    const perPageResults = 5;
+    const perPageResults = 6;
     if (pagenumber < 1 || isNaN(pagenumber)) {
       return res.status(400).send({ err: "invalid page number" });
     }
     let total = await Posts.countDocuments({ _userid });
     let posts = await Posts.find({ _userid })
       .skip((pagenumber - 1) * perPageResults)
+      .sort("-date")
       .limit(perPageResults);
-    return res.send({ pagenumber, total, posts });
+
+    return res.send({
+      size_per_page: perPageResults,
+      pagenumber,
+      total,
+      posts,
+    });
   },
   getPost: async (req, res) => {
     const { postid } = req.params;
@@ -30,6 +36,7 @@ module.exports = {
       keys.forEach((key) => {
         if (key === "image_url") {
           image_url = req.files.image_url[0].filename;
+          image_url = `uploads/posts/${image_url}`;
           Jimp.read(image_url, (err, lenna) => {
             if (err) throw err;
             lenna
@@ -70,7 +77,7 @@ module.exports = {
     await post
       .save()
       .then((resp) => {
-        return res.send({ title, description, image_url });
+        return res.send(resp);
       })
       .catch((err) => {
         return res.status(500).send(err);

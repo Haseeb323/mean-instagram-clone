@@ -1,4 +1,4 @@
-<ng-template #content let-modal>
+<ng-template #profilePictureUpdate let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Profile picture update</h4>
     <button
@@ -29,6 +29,156 @@
     </button>
   </div>
 </ng-template>
+<ng-template #follower let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Followers</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-muted text-center" [hidden]="followers.length">
+      No user found
+    </p>
+    <ul class="users">
+      <li *ngFor="let follower of followers">
+        <img
+          class="following-img"
+          src="{{
+            follower.image_url
+              ? baseUrl + '/' + follower.image_url
+              : 'assets/profile.png'
+          }}"
+          alt="img"
+        />
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="c('Save click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+<ng-template #following let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Following</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p class="text-muted" [hidden]="followings.length">No user found</p>
+    <ul class="users">
+      <li *ngFor="let following of followings">
+        <img
+          class="following-img"
+          src="{{
+            following.image_url
+              ? baseUrl + '/' + following.image_url
+              : 'assets/profile.png'
+          }}"
+          alt="img"
+        />
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-outline-dark"
+      (click)="c('Save click')"
+    >
+      Close
+    </button>
+  </div>
+</ng-template>
+<ng-template #addNewPost let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Add New Post</h4>
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="d('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <form (ngSubmit)="onAddNewPost(postform)" #postform="ngForm">
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          class="form-control"
+          type="text"
+          name="title"
+          #title="ngModel"
+          (ngModel)="(title)"
+          required
+        />
+        <div
+          class="alert alert-danger"
+          [hidden]="title.valid || title.pristine"
+        >
+          Title required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">description</label>
+        <input
+          class="form-control"
+          type="text"
+          name="description"
+          #description="ngModel"
+          (ngModel)="(description)"
+          required
+        />
+        <div
+          class="alert alert-danger"
+          [hidden]="description.valid || description.pristine"
+        >
+          description required
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="image_url">Picture</label>
+        <input
+          class="ml-2"
+          type="file"
+          name="image_url"
+          (change)="onPostImageChange($event)"
+        />
+        <div class="alert alert-danger" [hidden]="postImageUrl != ''">
+          Image required
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="submit"
+        [disabled]="postform.form.invalid"
+        class="btn btn-outline-dark"
+      >
+        Save
+      </button>
+    </div>
+  </form>
+</ng-template>
 
 <div class="row justify-content-center py-3">
   <div class="col-md-3 p-3 text-center">
@@ -37,37 +187,83 @@
       alt="Profile Image"
       class="img-fluid mx-auto d-block profile-img"
     />
-    <button class="btn btn-link" (click)="open(content)">
+    <button
+      class="btn btn-link"
+      [hidden]="!mainUser"
+      (click)="open(profilePictureUpdate)"
+    >
       Profile Picture
     </button>
   </div>
   <div class="col-md-7 p-3">
     <div class="d-flex justify-content-between mb-3">
       <h2 class="username">haseebahmad70</h2>
-      <button class="btn btn-primary btn-sm">Edit Profile</button>
+      <button
+        class="btn btn-primary btn-sm"
+        (click)="open(addNewPost)"
+        [hidden]="!mainUser"
+      >
+        Add Post
+      </button>
+      <button
+        class="btn btn-primary btn-sm"
+        (click)="followUser()"
+        [hidden]="mainUser"
+      >
+        {{ isFollowing ? "Unfollow" : "Follow" }}
+      </button>
     </div>
     <div class="d-flex mb-3">
-      <div class="flex-1"><b>0</b> posts</div>
-      <div class="flex-1"><b>104</b> followers</div>
-      <div class="flex-1"><b>128</b> following</div>
+      <div class="flex-1">
+        <a class="btn btn-link">
+          <b>{{ totalPosts }}</b> posts
+        </a>
+      </div>
+      <div class="flex-1">
+        <a class="btn btn-link" (click)="open(follower)">
+          <b>{{ followers.length }}</b> followers
+        </a>
+      </div>
+      <div class="flex-1">
+        <a class="btn btn-link" (click)="open(following)">
+          <b>{{ followings.length }}</b> following
+        </a>
+      </div>
     </div>
     <h5 class="">Haseeb Ahmed</h5>
   </div>
 </div>
 <hr />
-<div class="row py-2 mb-5">
-  <div class="col-md-4 p-5 mb-2">
-    <img
-      src="/assets/profile.png"
-      alt="Profile Image"
-      class="img-fluid mx-auto d-block"
-    />
+
+<div class="row justify-content-center" [hidden]="POSTS.length">
+  <h3 class="text-muted mt-3 p-4">No post available</h3>
+</div>
+<div class="row py-2">
+  <div
+    class="col-md-4 p-4"
+    *ngFor="
+      let post of POSTS
+        | paginate
+          : {
+              itemsPerPage: pageSize,
+              currentPage: page,
+              totalItems: count
+            };
+      let i = index
+    "
+  >
+    <img [src]="post.image_url" alt="Post" class="img-fluid mx-auto d-block" />
+    <div class="d-flex justify-content-between text-muted">
+      {{ post.title }}
+      <i> {{ post.date | date: "short" }}</i>
+    </div>
   </div>
-  <div class="col-md-4 p-5 mb-2">
-    <img
-      src="/assets/profile.png"
-      alt="Profile Image"
-      class="img-fluid mx-auto d-block"
-    />
-  </div>
+</div>
+<div class="row justify-content-center mb-2">
+  <pagination-controls
+    previousLabel="Prev"
+    nextLabel="Next"
+    [responsive]="true"
+    (pageChange)="handlePageChange($event)"
+  ></pagination-controls>
 </div>

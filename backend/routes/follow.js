@@ -1,9 +1,9 @@
 require("dotenv").config();
 const Router = require("express").Router();
-const postsController = require("../controllers/postsController");
+const followController = require("../controllers/followController");
 const verify = require("./verifyToken");
 
-Router.get("/", verify, postsController.getPosts);
-Router.get("/:postid", verify, postsController.getPost);
-
+Router.put("/follow", verify, followController.follow);
+Router.get("/follow/:userid", verify, followController.isfollowing);
+Router.get("/followings/:_id", verify, followController.allfollowings);
 module.exports = Router;
