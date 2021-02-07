@@ -5,7 +5,11 @@ import { WebService } from './web.service';
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private webService: WebService) {}
+  public hostAddress = '';
+  constructor(private webService: WebService) {
+    this.hostAddress = webService.HOST_BASE_ADDRESS;
+  }
+
   login(payload: object) {
     return this.webService.login('auth/login', payload);
   }
@@ -20,6 +24,9 @@ export class AuthService {
   }
   userInfo(userid: any) {
     return this.webService.get(`auth/info/${userid}`);
+  }
+  getUsers() {
+    return this.webService.get('auth/all');
   }
   getToken() {
     return localStorage.getItem('token');

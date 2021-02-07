@@ -86,15 +86,13 @@ module.exports = {
         // @ts-ignore
         date,
       } = user;
-      console.log(image_url);
+      //console.log(typeof image_url);
       return res.send({
         _id,
         name,
         email,
         image_url:
-          image_url == undefined
-            ? ""
-            : `http://${req.headers.host}/${image_url}`,
+          image_url === "" ? "" : `http://${req.headers.host}/${image_url}`,
         followers,
         followings,
         username,
@@ -138,6 +136,17 @@ module.exports = {
         .catch((err) => res.status(500).send(err)); // save
     });
   },
+  getUsers: async (req, res) => {
+    const { _id } = req;
+    await User.find({ _id: { $ne: _id } })
+      .select("name image_url")
+      .exec((err, users) => {
+        if (err) {
+          return res.send({ err });
+        }
+        return res.send({ users });
+      });
+  },
   userInfo: async (req, res) => {
     // @ts-ignore
     const _id = req.params.userid;
@@ -165,9 +174,7 @@ module.exports = {
         name,
         email,
         image_url:
-          image_url == undefined
-            ? ""
-            : `http://${req.headers.host}/${image_url}`,
+          image_url === "" ? "" : `http://${req.headers.host}/${image_url}`,
         followers,
         followings,
         username,

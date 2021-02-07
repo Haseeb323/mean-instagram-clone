@@ -8,8 +8,9 @@ import { SharedModule } from '../shared/shared.module';
 import { ProfileComponent } from './profile/profile.component';
 import { FormsModule } from '@angular/forms';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UsersComponent } from './users/users.component';
 @NgModule({
-  declarations: [DashboardComponent, HomeComponent, ProfileComponent],
+  declarations: [DashboardComponent, HomeComponent, ProfileComponent, UsersComponent],
 
   imports: [
     CommonModule,

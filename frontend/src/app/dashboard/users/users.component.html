@@ -1,0 +1,25 @@
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-header">All Profiles</div>
+      <div class="card-body">
+        <ul class="users">
+          <li *ngFor="let following of users">
+            <img
+              class="following-img"
+              src="{{
+                following.image_url
+                  ? baseUrl + '/' + following.image_url
+                  : 'assets/profile.png'
+              }}"
+              alt="img"
+            />
+            <a [routerLink]="['/dashboard/profile', following._id]">{{
+              following.name
+            }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,15 @@
+.following-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 45%;
+}
+.users {
+  margin-left: 0;
+  list-style: none;
+}
+.users > li {
+  padding: 2px 2px 4px 0;
+}
+.users > li > a {
+  margin-left: 6px;
+}

@@ -15,4 +15,7 @@ export class FollowingsService {
   getFollowings(userid: any) {
     return this.webService.get(`user/followings/${userid}`);
   }
+  getUserFollowings() {
+    return this.webService.get(`user/followings/`);
+  }
 }

@@ -6,4 +6,5 @@ const verify = require("./verifyToken");
 Router.put("/follow", verify, followController.follow);
 Router.get("/follow/:userid", verify, followController.isfollowing);
 Router.get("/followings/:_id", verify, followController.allfollowings);
+Router.get("/followings/", verify, followController.getUserFollowings);
 module.exports = Router;

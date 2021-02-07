@@ -38,6 +38,7 @@ Router.post(
   profilePictureUpload,
   userController.uploadprofile
 );
+Router.get("/all", verify, userController.getUsers);
 Router.get("/info", verify, userController.info);
 Router.get("/info/:userid", verify, userController.userInfo);
 

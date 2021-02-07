@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Followings } from 'src/app/models/followings.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { FollowingsService } from 'src/app/services/followings.service';
 import { PostService } from 'src/app/services/post.service';
@@ -25,8 +26,8 @@ export class ProfileComponent implements OnInit {
 
   closeResult = '';
   selectedFile!: File;
-  followers: [] = [];
-  followings: [] = [];
+  followers: Followings[] = [];
+  followings: Followings[] = [];
   isFollowing: boolean = false;
   postImageUrl: string = '';
   baseUrl = '';
@@ -49,10 +50,13 @@ export class ProfileComponent implements OnInit {
     this.baseUrl = this.webService.HOST_BASE_ADDRESS;
     this.activatedRoute.params.subscribe((res) => {
       if (res.hasOwnProperty('userid')) {
+        this.mainUser = false;
+        this.modalService.dismissAll('closed');
         this.authService.userInfo(res.userid).subscribe((resp: any) => {
           this.user = resp;
           this.authService.info().subscribe(
             (res: any) => {
+              //console.log(this.user);
               if (res._id === this.user._id) {
                 this.mainUser = true;
               }
@@ -204,5 +208,8 @@ export class ProfileComponent implements OnInit {
           this.modalService.dismissAll('Post Uploaded');
         }
       );
+  }
+  gotoProfile(_id: any) {
+    console.log(_id);
   }
 }

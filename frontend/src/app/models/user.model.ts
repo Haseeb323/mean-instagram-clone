@@ -7,6 +7,7 @@ export class User {
     public followings: [] = [],
     public email: string = '',
     public image_url: string = '',
-    public date: any
+    public date: any,
+    public isFollowing: boolean
   ) {}
 }

@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth.guard';
 import { DashboardComponent } from './dashboard.component';
 import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {
@@ -12,6 +13,7 @@ const routes: Routes = [
     children: [
       { path: '', component: HomeComponent, canActivate: [AuthGuard] },
       { path: 'profile/:userid', component: ProfileComponent },
+      { path: 'users', component: UsersComponent },
     ],
   },
 ];

@@ -78,4 +78,13 @@ module.exports = {
       return res.send(follow);
     });*/
   },
+  getUserFollowings: async (req, res) => {
+    const { _id } = req;
+    await Follow.find({ _id }).exec((err, follow) => {
+      if (err) {
+        return res.status(500).send({ err });
+      }
+      return res.send({ follow });
+    });
+  },
 };

@@ -13,10 +13,14 @@
   height: auto;
 }
 .following-img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  border-radius: 45%;
 }
 .users {
+  margin-left: 0;
   list-style: none;
+}
+.users > li {
+  padding: 2px 2px 2px 0;
 }

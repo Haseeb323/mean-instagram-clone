@@ -56,6 +56,10 @@
           }}"
           alt="img"
         />
+
+        <a [routerLink]="['/dashboard/profile', follower._id]">{{
+          follower.name
+        }}</a>
       </li>
     </ul>
   </div>
@@ -82,18 +86,31 @@
     </button>
   </div>
   <div class="modal-body">
-    <p class="text-muted" [hidden]="followings.length">No user found</p>
+    <p class="text-muted text-center" [hidden]="followings.length">
+      No user found
+    </p>
     <ul class="users">
-      <li *ngFor="let following of followings">
-        <img
-          class="following-img"
-          src="{{
-            following.image_url
-              ? baseUrl + '/' + following.image_url
-              : 'assets/profile.png'
-          }}"
-          alt="img"
-        />
+      <li
+        class="d-flex justify-content-between"
+        *ngFor="let following of followings"
+      >
+        <div>
+          <img
+            class="following-img"
+            src="{{
+              following.image_url
+                ? baseUrl + '/' + following.image_url
+                : 'assets/profile.png'
+            }}"
+            alt="img"
+          />
+          <a [routerLink]="['/dashboard/profile', following._id]">{{
+            following.name
+          }}</a>
+        </div>
+        <div>
+          <button type="button" class="btn btn-primary">following</button>
+        </div>
       </li>
     </ul>
   </div>
