@@ -1,22 +1,37 @@
 <div class="row justify-content-center">
-  <div class="col-md-6">
+  <div class="col-md-6 my-4">
     <div class="card">
       <div class="card-header">All Profiles</div>
       <div class="card-body">
         <ul class="users">
-          <li *ngFor="let following of users">
-            <img
-              class="following-img"
-              src="{{
-                following.image_url
-                  ? baseUrl + '/' + following.image_url
-                  : 'assets/profile.png'
-              }}"
-              alt="img"
-            />
-            <a [routerLink]="['/dashboard/profile', following._id]">{{
-              following.name
-            }}</a>
+          <li class="d-flex justify-content-between" *ngFor="let user of users">
+            <div>
+              <img
+                class="following-img"
+                src="{{
+                  user.image_url
+                    ? baseUrl + '/' + user.image_url
+                    : 'assets/profile.png'
+                }}"
+                alt="img"
+              />
+              <a [routerLink]="['/dashboard/profile', user._id]">{{
+                user.name
+              }}</a>
+            </div>
+            <div>
+              <button
+                type="button"
+                [ngClass]="{
+                  'btn-light': user.isFollowing,
+                  'btn-primary': !user.isFollowing
+                }"
+                (click)="followUser(user._id)"
+                class="btn btn-sm mr-2"
+              >
+                {{ user.isFollowing ? "following" : "follow" }}
+              </button>
+            </div>
           </li>
         </ul>
       </div>

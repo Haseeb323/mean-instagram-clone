@@ -50,8 +50,9 @@ module.exports = {
     //hashing password
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
+    const username = email.split("@")[0];
     //Storing into db
-    const newUser = new User({ name, email, password: hash });
+    const newUser = new User({ name, email, username, password: hash });
     await newUser
       .save()
       .then(async (result) => {

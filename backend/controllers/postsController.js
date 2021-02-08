@@ -2,6 +2,7 @@ require("dotenv").config();
 const { postValidate } = require("../validation");
 const Posts = require("../model/Posts");
 const Jimp = require("jimp");
+const Follow = require("../model/Follow");
 
 module.exports = {
   getPosts: async (req, res) => {
@@ -82,6 +83,14 @@ module.exports = {
       .catch((err) => {
         return res.status(500).send(err);
       });
+  },
+  allPosts: async (req, res) => {
+    const { _id } = req;
+    let followings = await Follow.findOne({ _id }).select("followings");
+    // @ts-ignore
+    followings = followings.followings;
+
+    res.send({ followings });
   },
   deletePost: async (req, res) => {
     const { postid } = req.params;

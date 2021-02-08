@@ -90,27 +90,19 @@
       No user found
     </p>
     <ul class="users">
-      <li
-        class="d-flex justify-content-between"
-        *ngFor="let following of followings"
-      >
-        <div>
-          <img
-            class="following-img"
-            src="{{
-              following.image_url
-                ? baseUrl + '/' + following.image_url
-                : 'assets/profile.png'
-            }}"
-            alt="img"
-          />
-          <a [routerLink]="['/dashboard/profile', following._id]">{{
-            following.name
-          }}</a>
-        </div>
-        <div>
-          <button type="button" class="btn btn-primary">following</button>
-        </div>
+      <li *ngFor="let following of followings">
+        <img
+          class="following-img"
+          src="{{
+            following.image_url
+              ? baseUrl + '/' + following.image_url
+              : 'assets/profile.png'
+          }}"
+          alt="img"
+        />
+        <a [routerLink]="['/dashboard/profile', following._id]">{{
+          following.name
+        }}</a>
       </li>
     </ul>
   </div>
@@ -214,7 +206,7 @@
   </div>
   <div class="col-md-7 p-3">
     <div class="d-flex justify-content-between mb-3">
-      <h2 class="username">haseebahmad70</h2>
+      <h2 class="username">{{ user.email }}</h2>
       <button
         class="btn btn-primary btn-sm"
         (click)="open(addNewPost)"
@@ -247,7 +239,7 @@
         </a>
       </div>
     </div>
-    <h5 class="">Haseeb Ahmed</h5>
+    <h5 class="">{{ user.name }}</h5>
   </div>
 </div>
 <hr />

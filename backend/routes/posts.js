@@ -29,6 +29,7 @@ const upload = multer({
 const postPictureUpload = upload.fields([{ name: "image_url", maxCount: 1 }]);
 Router.get("/:_userid/:pagenumber", verify, postsController.getPosts);
 Router.get("/:postid", verify, postsController.getPost);
+Router.get("/all/:pagenumber/posts", verify, postsController.allPosts);
 Router.post(
   "/postimage",
   verify,

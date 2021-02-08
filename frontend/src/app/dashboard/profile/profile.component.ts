@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { Followings } from 'src/app/models/followings.model';
+import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { FollowingsService } from 'src/app/services/followings.service';
 import { PostService } from 'src/app/services/post.service';
@@ -31,12 +32,16 @@ export class ProfileComponent implements OnInit {
   isFollowing: boolean = false;
   postImageUrl: string = '';
   baseUrl = '';
-  user: any = {
+  user: User = {
     _id: '',
     name: '',
     username: '',
+    followers: [],
+    followings: [],
     email: '',
     image_url: '',
+    date: '',
+    isFollowing: false,
   };
   constructor(
     private modalService: NgbModal,

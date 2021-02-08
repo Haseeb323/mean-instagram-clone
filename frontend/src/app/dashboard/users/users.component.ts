@@ -40,7 +40,19 @@ export class UsersComponent implements OnInit {
       }
     );
   }
-
+  followUser(userid: string) {
+    this.followingsService.followUser(userid).subscribe(
+      (res: any) => {},
+      (err: HttpErrorResponse) => {},
+      () => {
+        let { users } = this;
+        this.users = users.map((user: User) => {
+          if (user._id === userid) user.isFollowing = !user.isFollowing;
+          return user;
+        });
+      }
+    );
+  }
   getUsers() {
     this.authService.getUsers().subscribe(
       (res: any) => {

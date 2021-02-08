@@ -1,13 +1,11 @@
 export class User {
-  constructor(
-    public _id: string = '',
-    public name: string = '',
-    public username: string = '',
-    public followers: [] = [],
-    public followings: [] = [],
-    public email: string = '',
-    public image_url: string = '',
-    public date: any,
-    public isFollowing: boolean
-  ) {}
+  _id!: string;
+  name!: string;
+  username!: string;
+  followers!: [];
+  followings!: [];
+  email!: string;
+  image_url!: string;
+  date: any;
+  isFollowing!: boolean;
 }
