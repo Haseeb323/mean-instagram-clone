@@ -15,4 +15,7 @@ export class PostService {
   addPost(payload: any) {
     return this.webService.post('posts/add', payload);
   }
+  getMyPosts(pagenumber: number) {
+    return this.webService.get(`posts/all/${pagenumber}/posts`);
+  }
 }

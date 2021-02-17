@@ -214,7 +214,4 @@ export class ProfileComponent implements OnInit {
         }
       );
   }
-  gotoProfile(_id: any) {
-    console.log(_id);
-  }
 }

@@ -1,1 +1,13 @@
-
+.profile-img {
+  border-radius: 50%;
+  height: 54px;
+  width: 54px;
+}
+.user-detail {
+  line-height: 3;
+}
+.sticky {
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+}

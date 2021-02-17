@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   app-footer {
+    position: -webkit-sticky; /* Safari */
     position: relative;
     width: 100%;
     bottom: 0;

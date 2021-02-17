@@ -86,11 +86,46 @@ module.exports = {
   },
   allPosts: async (req, res) => {
     const { _id } = req;
+    const { pagenumber } = req.params;
+    const perPageResults = 6;
     let followings = await Follow.findOne({ _id }).select("followings");
     // @ts-ignore
     followings = followings.followings;
+    const totalposts = await Posts.countDocuments({
+      _userid: { $in: followings },
+    });
 
-    res.send({ followings });
+    const allposts = await Posts.aggregate([
+      { $match: { _userid: { $in: followings } } },
+      {
+        $lookup: {
+          from: "users",
+          localField: "_userid",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      //{ $unwind: "$user" },
+      { $sort: { date: -1 } },
+      { $skip: (pagenumber - 1) * perPageResults },
+      { $limit: perPageResults },
+      {
+        $project: {
+          "user.image_url": 1,
+          "user.name": 1,
+          "user._id": 1,
+          image_url: 1,
+          title: 1,
+          description: 1,
+          date: 1,
+        },
+      },
+    ]);
+    const posts = allposts.map((post) => {
+      post.user = post.user[0];
+      return post;
+    });
+    return res.send({ perPageResults, totalposts, posts });
   },
   deletePost: async (req, res) => {
     const { postid } = req.params;

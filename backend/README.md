@@ -1,6 +1,4 @@
-# NODE JWT token in EXPRESS MongoDB REST Api boilerplate
-
-This is sample json web token rest api boilerplate in NodeJs and ExpressJs for MongoDB along with data validation.
+# Backend
 
 ## contents
 

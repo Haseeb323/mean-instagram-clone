@@ -1,27 +1,39 @@
+# Instagram Clone
+
+This is a simple Instagram Clone developed using MongoDB, ExpressJs, Angular and NodeJs to mimic basic design and functionality of the official Instagram web app.
+
+# Requirements
+
+NodeJs installed
+MongoDb installed locally or account in https://www.mongodb.com/
+Angular Installed
+
 # Frontend
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
-
-## Development server
-
+## Usage
+Open Terminal or CMD in frontend directory
+Run `npm install`
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
 
-## Running unit tests
+# Backend
+## Usage
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Open Shell/Terminal in project directory and run command "npm install"
+Rename ".env.example" to ".env"
+Edit ".env" file Set Port and MongoDB Uri in ".env" file
 
-## Running end-to-end tests
+## Database
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+To connect with database simply add MONGOURI = mongodb://localhost:27017/collection-name
 
-## Further help
+## Validation
+For validation get help from https://joi.dev/api/
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Development server
+Run "npm start" command in Shell/Terminal
+
+# URL 
+http://47.242.45.241/

@@ -1,2 +1,89 @@
-<h2>Welcome {{ name }}</h2>
-<p>Your registered email is {{ email }}</p>
+<div class="row justify-content-center" [hidden]="POSTS.length">
+  <span class="text-muted text-center my-4">No Post found</span>
+</div>
+<div class="row justify-content-center">
+  <div class="col-md-5 py-2">
+    <div
+      class="bg-white mb-3"
+      *ngFor="
+        let post of POSTS
+          | paginate
+            : {
+                itemsPerPage: pageSize,
+                currentPage: page,
+                totalItems: count
+              };
+        let i = index
+      "
+    >
+      <div class="d-flex p-2">
+        <div class="">
+          <img
+            src="{{
+              post.user.image_url == ''
+                ? '/assets/profile.png'
+                : baseUrl + '/' + post.user.image_url
+            }}"
+            class="profile-img"
+            alt=""
+          />
+        </div>
+        <div class="user-detail ml-2">
+          <a
+            [routerLink]="['/dashboard/profile', post.user._id]"
+            class="text-muted m-0 p-0"
+            >{{ post.user.name }}
+          </a>
+        </div>
+      </div>
+      <img [src]="post.image_url" alt="Post" class="w-100" />
+
+      <p class="text-muted">
+        {{ post.title }}
+        <br />
+        {{ post.description }}
+      </p>
+      <small>
+        <i> {{ post.date | date: "short" }}</i>
+      </small>
+    </div>
+    <pagination-controls
+      [hidden]="!POSTS.length"
+      previousLabel="Prev"
+      nextLabel="Next"
+      [responsive]="true"
+      (pageChange)="handlePageChange($event)"
+    ></pagination-controls>
+  </div>
+  <div class="col-md-2">
+    <div class="sticky pt-4 bg-light">
+      <div class="d-flex p-2">
+        <div class="">
+          <img
+            src="{{
+              user.image_url == '' ? '/assets/profile.png' : user.image_url
+            }}"
+            class="profile-img"
+            alt=""
+          />
+        </div>
+        <div class="user-detail align-items-center ml-2">
+          <a
+            [routerLink]="['/dashboard/profile/', user._id]"
+            class="text-muted m-0 p-0"
+          >
+            {{ user.name }}
+          </a>
+        </div>
+      </div>
+      <div class="ml-2">
+        <a class="text-muted" [routerLink]="['/dashboard/profile/', user._id]">
+          {{ user.username }}
+        </a>
+        <a class="text-muted" [routerLink]="['/dashboard/profile/', user._id]">
+          {{ user.email }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
